@@ -1,0 +1,24 @@
+# From Eugene
+# if you ever need to search a bunch of repos in a folder and see if tags have changed indicating that the new tag has picked up
+# expected changes
+
+declare -f tag_compare 
+tag_compare () 
+{ 
+for i in `ls`;
+do
+if [ -f $i ]; then
+:;
+else
+pushd $i > /dev/null;
+if git log -1 --decorate --oneline | grep --color=auto $1 > /dev/null && git log -1 --decorate --oneline | grep --color=auto $2 > /dev/null; then
+:;
+else
+pwd;
+fi;
+popd > /dev/null;
+fi;
+done
+}
+
+tag_compare $tag1 $tag2
