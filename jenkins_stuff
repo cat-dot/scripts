@@ -1,0 +1,10 @@
+# place to hold random possibly usseful things for dealing with Jenkins
+
+#how to trigger your job in Jenkins via curl with user and password.
+CRUMB_TOKEN=$(curl 'http://jenkins_URL:8088/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)' \
+    -c cookies.txt \
+    --user "admin:adminpass")
+curl -I -X POST \
+    http://admin:adminpass@jenkins_URL:8088/job/your_job/build \
+    -H "$CRUMB_TOKEN" \
+    -b cookies.txt
